@@ -29,11 +29,11 @@ Objective-C程式在compile time時，會先編譯成Ｃ然後繼續編譯．所
 
 ### Selector應用
 
-1. #####**Target/Action Patten**-主用途
+1. **Target/Action Patten-主用途**
 
    像是在Interface Builder上建立一個UIButton，Button連接到Controller宣告IBAction的method時，Controller為Button的target，要求Controller執行的method就是action．
 
-2. #####**檢查method是否存在**
+2. **檢查method是否存在**
 
    常遇到的情況是ＯＳ向下相容，**檢查某個物件是否實作某個method**時只要呼叫`respondsToSelector:`即可
 
@@ -48,7 +48,7 @@ Objective-C程式在compile time時，會先編譯成Ｃ然後繼續編譯．所
 
    ARC機制會在compile time時決定什麼時候應該釋放記憶體．
 
-3. #####**Timer**
+3. **Timer**
 
    當我們想要延遲呼叫某個method或某件事情重複執行時，可建立NSTimer物件達成，使用timer也須使用selectore語法．
    用法為：(1) 先定義timer要做的事情
@@ -69,11 +69,11 @@ Objective-C程式在compile time時，會先編譯成Ｃ然後繼續編譯．所
    							repeats: YES];
    ```
 
-4. #####**接收NSNotification**
+4. **接收NSNotification**
 
    在開始訂閱通知時也要指定由哪個selector處理這個通知
 
-5. #####**在某個thread執行method**
+5. **在某個thread執行method**
 
    假若有一件事doSomthing執行太久，我們可以將它丟到背景執行，需另開一個thread：
    `[self performSelectorInBackground: @selector(doSomthing) withObject: nil]`
@@ -91,7 +91,7 @@ Objective-C程式在compile time時，會先編譯成Ｃ然後繼續編譯．所
    }
    ```
 
-6. #####**Array排序 - 比較Array元素的大小**
+6. **Array排序 - 比較Array元素的大小**
 
    NSString, NSDate, NSNumber, NSIndexPath皆提供`compare:`這個method，若為NSString，常用的為`localizedCompare:`會參考ＯＳ系統語系決定排序方式．
    我們使用`sortedArrayUsingSelector:`產生重新排序的新陣列，若為NSMutableArray，則呼叫`sortUsingSelector:`
@@ -103,7 +103,7 @@ Objective-C程式在compile time時，會先編譯成Ｃ然後繼續編譯．所
    也可以透過傳遞selector要求Array的每個元素都執行一次指定的method
    `[anArray makeObjectsPerformSelector: @selector(doSomething);]`
 
-7. #####**代替if...else與switch...case**
+7. **代替if...else與switch...case**
 
    若覺得寫一堆if...else or switch…case太過冗長，則可考慮搭配literal寫法，如：
    原本為：
@@ -127,19 +127,19 @@ Objective-C程式在compile time時，會先編譯成Ｃ然後繼續編譯．所
 
    可以使用`NSStringFromSeletor`將Selector轉換為NSString, 或是`NSSelectorFromString`將NSString轉成Selector
 
-8. #####**呼叫Private API**
+8. **呼叫Private API**
 
    Objective-C內沒有真正的private method, 有時候沒有header也能呼叫某些method, 通常使用`performSelector:`，但並不建議這麼做，因為有可能系統改版時，整個底層實作會被更換掉，若一個method沒有被放在header內，則可能更版後method就不存在了，若呼叫不存在的method很可能造成應用程式crash．所以App Store在審查過程中會拒絕使用private API的程式．
 
 ### 呼叫performSelector:需要注意的地方
 
-1. #####**對super呼叫performSelector:** -> 不必要的動作，相當於`[self doSomething];`
+1. **對super呼叫performSelector:** -> **不必要的動作**，相當於`[self doSomething];`
 
    對super呼叫一個method：`[super doSomething];`
    若是super呼叫`performSelector:`，則會是`[super performSelector: @selector(doSomething)];`，
    也就是super呼叫了performSelector，相當於`[self doSomething];`這件事．
 
-2. #####Refactor工具
+2. Refactor工具
 
    當需要重新命名某些method名稱時，我們可以透過Refactor/Rename來做這件事，但若是performSelector內的selector method名稱則不會被修改到，這可能造成程式錯誤，需要小心．
 
